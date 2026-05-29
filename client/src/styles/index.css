@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+html,body {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+:root {
+    --bg-primary: #02010a;
+    --bg-secondary: #080808;
+
+  /* Surfaces */
+  --surface-primary: #04052e;
+  --surface-secondary: #140152;
+  --surface-tertiary: #22007c;
+  --surface-accent: #0d00a4;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #dee2e6;
+
+  --success: #22c55e;
+  --danger: #ef4444;
+}
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+/* Surfaces */
+.surface-primary {
+  background-color: var(--surface-primary);
+}
+
+.surface-secondary {
+  background-color: var(--surface-secondary);
+}
+
+.surface-tertiary {
+  background-color: var(--surface-tertiary);
+}
+
+.surface-accent {
+  background-color: var(--surface-accent);
+}
+
+/* Text */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+/* Status Colors */
+.success {
+  color: var(--success);
+}
+
+.danger {
+  color: var(--danger);
+}
+
+/* Optional Background Variants */
+.bg-success {
+  background-color: var(--success);
+}
+
+.bg-danger {
+  background-color: var(--danger);
+}
