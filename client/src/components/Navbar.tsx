@@ -1,26 +1,27 @@
 import { Bell, Search, CirclePlus, User } from 'lucide-react';
 
 function Navbar() {
-    return <div className='w-full'>
-        <div className='w-full text-white flex justify-between items-center py-2 px-8'>
-            <div className='flex justify-between items-center w-1/3'>
+    return <div>
+        <div className='w-full text-white flex justify-between items-center py-4 px-8 border-b border-gray-900'>
+            <div className='flex justify-left items-center w-1/3 gap-4'>
                 <h1 className='text-2xl font-bold'>ORGOLT</h1>
-                <div className='flex justifify-center items-center gap-2'>
-                    <input type="text" placeholder="Search" />
-                    <Search />
-                </div>
+                <div className='text-3xl'>I</div>
+                <div className='text-gray-400 text-md'>PAGE NAME</div>
             </div>
-            <div className='py-2 px-4 bg-gray-500 rounded-2xl '>PAGE NAME</div>
-            <div className='flex justify-between items-center w-1/3 '>
-                <div className='flex justifify-center items-center gap-2'>
-                    <CirclePlus />
-                    Create
+            <div className='flex justify-end items-center w-1/3 gap-6'>
+                <div className='flex justifify-center items-center rounded-lg'>
+                    <Search className='h-4'/>
+                    <p className='text-sm'>ctrl + k</p>
+                </div>
+                <div className='flex justify-center items-center gap-1 py-2 px-3 rounded-lg surface-secondary'>
+                    <CirclePlus className='h-5'/>
+                    <p>Create</p>
                 </div>
                 <div>
-                    <Bell />
+                    <Bell className='h-5'/>
                 </div>
                 <div>
-                    <User />
+                    <User className='h-5'/>
                 </div>
             </div>
         </div>
