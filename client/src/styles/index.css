@@ -4,6 +4,7 @@
 html,body {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-primary);
 }
 
 :root {
