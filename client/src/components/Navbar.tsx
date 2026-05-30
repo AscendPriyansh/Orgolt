@@ -2,7 +2,7 @@ import { Bell, Search, CirclePlus, User } from 'lucide-react';
 
 function Navbar() {
     return <div>
-        <div className='w-full text-white flex justify-between items-center py-4 px-8 border-b border-gray-900'>
+        <div className='w-full text-white flex justify-between items-center py-4 px-8 border-b border-gray-900 bg-primary'>
             <div className='flex justify-left items-center w-1/3 gap-4'>
                 <h1 className='text-2xl font-bold'>ORGOLT</h1>
                 <div className='text-3xl'>I</div>
