@@ -1,5 +1,8 @@
 import app from "./app";
-import { pool } from "./db";
+import { pool } from "./db/db";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 console.log("1. server.ts loaded");
 
