@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import users from "./routes/users";
 import organizations from "./routes/organizations";
+import boards from "./routes/boards";
 
 const router = express.Router();
 const app = express();
@@ -11,5 +12,7 @@ app.use(cors());
 
 app.use("/auth/v1/", users);
 app.use("/org/v1/", organizations);
+app.use("/org/v1/:orgId/boards/", boards);
+
 
 export default app;

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { orgSchema, updateOrgSchema } from "../schema/orgSchema";
@@ -14,7 +14,7 @@ export const createOrg = async (req: Request, res: Response) => {
             });
         };
 
-        const orgExists = await pool.query("SELECT * FROM organizations WHERE name = $1", [data.name]);
+        const orgExists = await pool.query("SELECT * FROM organizations WHERE name = $1 AND owner_id = $2", [data.name, (req as any).userId]);
 
         if (orgExists.rows.length > 0) {
             return res.status(403).json({
@@ -36,7 +36,7 @@ export const createOrg = async (req: Request, res: Response) => {
     };
 }
 
-export const getOrgs = async (req: Request, res: Response, next: NextFunction) => {
+export const getOrgs = async (req: Request, res: Response) => {
     try {
         const ownerId = (req as any).userId;
 
@@ -49,7 +49,7 @@ export const getOrgs = async (req: Request, res: Response, next: NextFunction) =
         }
 
         return res.status(200).json({
-            organizations: getOrgs.rows
+            organizations: getOrgs.rows,
         });
 
     } catch (err) {
@@ -63,7 +63,7 @@ export const getOrgByName = async (req: Request, res: Response) => {
     try {
         const { name } = req.params;
 
-        const org = await pool.query("SELECT * FROM organizations WHERE name = $1", [name]);
+        const org = await pool.query("SELECT * FROM organizations WHERE name = $1 AND owner_id = $2", [name, (req as any).userId]);
 
         if (org.rows.length === 0) {
             return res.status(404).json({
@@ -72,7 +72,7 @@ export const getOrgByName = async (req: Request, res: Response) => {
         }
 
         return res.status(200).json({
-            organization: org.rows[0]
+            organization: org.rows[0],
         });
     } catch(err) {
         return res.status(500).json({
@@ -81,7 +81,7 @@ export const getOrgByName = async (req: Request, res: Response) => {
     }
 }
 
-export const updateOrg = async (req: Request, res: Response, next: NextFunction) => {
+export const updateOrg = async (req: Request, res: Response) => {
     try {
         const { data, success } = updateOrgSchema.safeParse(req.body);
 
@@ -91,7 +91,7 @@ export const updateOrg = async (req: Request, res: Response, next: NextFunction)
             });
         };
 
-        const getOrgId = await pool.query("SELECT id FROM organizations WHERE name = $1", [req.params.name]);
+        const getOrgId = await pool.query("SELECT id FROM organizations WHERE name = $1 AND owner_id = $2", [req.params.name, (req as any).userId]);
 
         if (getOrgId.rows.length === 0) {
             return res.status(404).json({
@@ -116,13 +116,13 @@ export const updateOrg = async (req: Request, res: Response, next: NextFunction)
 
 export const deleteOrg = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
-        const { confirmName } = req.body;
+        const { name } = req.params;
+        // const { confirmName } = req.body;
         const userId = (req as any).userId;
 
         const org = await pool.query(
-            "SELECT * FROM organizations WHERE id = $1 AND owner_id = $2",
-            [id, userId]
+            "SELECT * FROM organizations WHERE name = $1 AND owner_id = $2",
+            [name, userId]
         );
 
         if (org.rows.length === 0) {
@@ -131,15 +131,9 @@ export const deleteOrg = async (req: Request, res: Response) => {
             });
         }
 
-        if (org.rows[0].name !== confirmName) {
-            return res.status(400).json({
-                message: "Name does not match"
-            });
-        }
-
         await pool.query(
             "DELETE FROM organizations WHERE id = $1",
-            [id]
+            [org.rows[0].id]
         );
 
         return res.status(200).json({

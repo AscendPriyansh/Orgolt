@@ -8,6 +8,6 @@ router.post("/", authMiddleware, createOrg);
 router.get("/", authMiddleware, getOrgs);
 router.get("/:name", authMiddleware, getOrgByName);
 router.put("/:name", authMiddleware, updateOrg);
-router.delete("/:id", authMiddleware, deleteOrg);
+router.delete("/:name", authMiddleware, deleteOrg);
 
 export default router;
