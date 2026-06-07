@@ -99,3 +99,192 @@ export const createCard = async (req: Request, res: Response) => {
     }
 }
 
+export const getCards = async (req: Request, res: Response) => {
+    try {
+        const { boardId, listId } = req.params;
+        const userId = (req as any).userId;
+
+        const boardCheck = await pool.query("SELECT * FROM boards WHERE id = $1", [boardId]);
+
+        if (boardCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "Board not found"
+            });
+        }
+
+        const orgId = boardCheck.rows[0].org_id;
+
+        const memberCheck = await pool.query(
+            `SELECT EXISTS (
+                SELECT 1 FROM organizations_members WHERE org_id = $1 AND user_id = $2
+                UNION
+                SELECT 1 FROM organizations WHERE id = $1 AND owner_id = $2
+            ) AS has_access`,
+            [orgId, userId]
+        );
+
+        if (!memberCheck.rows[0].has_access) {
+            return res.status(403).json({
+                message: "You don't have access to this board"
+            });
+        }
+
+        const listCheck = await pool.query(
+            "SELECT id FROM lists WHERE id = $1 AND board_id = $2",
+            [listId, boardId]
+        );
+
+        if (listCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "List not found"
+            });
+        }
+
+        const getCardList = await pool.query("SELECT * FROM cards WHERE list_id = $1", [listId]);
+
+        if(getCardList.rows.length === 0) {
+            return res.status(404).json({
+                message: "No Cards Available"
+            });
+        }
+    
+        return res.status(200).json({
+            message: "Cards Fetched Succesfully",
+            cards: getCardList.rows 
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "Server Error"
+        });
+    }
+}
+
+export const updateCard = async (req: Request, res: Response) => {
+    try {
+        const { boardId, listId } = req.params;
+        const userId = (req as any).userId;
+
+        const boardCheck = await pool.query("SELECT * FROM boards WHERE id = $1", [boardId]);
+
+        if (boardCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "Board not found"
+            });
+        }
+
+        const orgId = boardCheck.rows[0].org_id;
+
+        const memberCheck = await pool.query(
+            `SELECT EXISTS (
+                SELECT 1 FROM organizations_members WHERE org_id = $1 AND user_id = $2
+                UNION
+                SELECT 1 FROM organizations WHERE id = $1 AND owner_id = $2
+            ) AS has_access`,
+            [orgId, userId]
+        );
+
+        if (!memberCheck.rows[0].has_access) {
+            return res.status(403).json({
+                message: "You don't have access to this board"
+            });
+        }
+
+        const listCheck = await pool.query(
+            "SELECT id FROM lists WHERE id = $1 AND board_id = $2",
+            [listId, boardId]
+        );
+
+        if (listCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "List not found"
+            });
+        }
+
+        const getCardList = await pool.query("UPDATE cards SET (name, description, assigneeIds) WHERE list_id = $1", [listId]);
+
+        if(getCardList.rows.length === 0) {
+            return res.status(404).json({
+                message: "No Cards Available"
+            });
+        }
+    
+        return res.status(200).json({
+            message: "Cards Fetched Succesfully",
+            cards: getCardList.rows 
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "Server Error"
+        });
+    }
+}
+
+export const deleteCard = async (req: Request, res: Response) => {
+    try {
+        const { boardId, listId, cardId } = req.params;
+        const userId = (req as any).userId;
+
+        const boardCheck = await pool.query("SELECT * FROM boards WHERE id = $1", [boardId]);
+
+        if (boardCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "Board not found"
+            });
+        }
+
+        const orgId = boardCheck.rows[0].org_id;
+
+        const memberCheck = await pool.query(
+            `SELECT EXISTS (
+                SELECT 1 FROM organizations_members WHERE org_id = $1 AND user_id = $2
+                UNION
+                SELECT 1 FROM organizations WHERE id = $1 AND owner_id = $2
+            ) AS has_access`,
+            [orgId, userId]
+        );
+
+        if (!memberCheck.rows[0].has_access) {
+            return res.status(403).json({
+                message: "You don't have access to this board"
+            });
+        }
+
+        const listCheck = await pool.query(
+            "SELECT id FROM lists WHERE id = $1 AND board_id = $2",
+            [listId, boardId]
+        );
+
+        if (listCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "List not found"
+            });
+        }
+
+        const cardCheck = await pool.query(
+            "SELECT id FROM cards WHERE id = $1 AND list_id = $2",
+            [cardId, listId]
+        );
+
+        if (cardCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "Card not found"
+            });
+        }
+
+        await pool.query(
+            "DELETE FROM cards WHERE id = $1",
+            [cardId]
+        );
+
+        return res.status(200).json({
+            message: "Card deleted successfully"
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            message: "Server Error"
+        });
+    }
+}

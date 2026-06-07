@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/authmiddleware";
-import { createCard } from "../controllers/cardController";
+import { createCard, getCards, deleteCard } from "../controllers/cardController";
 
 const router = Router({mergeParams: true});
 
 router.post("/", authMiddleware, createCard);
-// router.post("/", authMiddleware, getCardList);
+router.get("/", authMiddleware, getCards);
+router.delete("/:cardId", authMiddleware, deleteCard);
 
 export default router;
