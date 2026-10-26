@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createOrgService, getOrgService, updateOrgService } from "../services/org.service.js";
+import { createOrgService, deleteOrgService, getOrgService, updateOrgService } from "../services/org.service.js";
 
 export const getOrg = async (req: Request, res: Response) => {
   try {
@@ -90,3 +90,32 @@ export const updateOrg = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteOrg = async (req: Request, res: Response) => {
+  try {
+    const orgId = (req as any).params.orgId;
+    const userId = (req as any).userId;
+
+    const deleteOrg = await deleteOrgService(userId, orgId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Organization deleted successfully"
+    });
+
+  } catch(err) {
+    console.log(err);
+
+    if(err instanceof Error && err.message === "Organization doesn't exist") {
+      return res.status(404).json({
+        success: false,
+        message: "Organization doesn't exist"
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+}

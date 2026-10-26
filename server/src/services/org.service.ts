@@ -107,3 +107,25 @@ export const updateOrgService = async (data: UpdateOrgInput, ownerId: string, or
 
   return updateOrg;
 }
+
+export const deleteOrgService = async (userId: string, orgId: string) => {
+  const orgExists = await prisma.organization.findFirst({
+    where: {
+      "id": orgId,
+      "ownerId": userId
+    }
+  });
+
+  if(!orgExists) {
+    throw new Error("Organization doesn't exist");
+  }
+
+  const deleteOrg = await prisma.organization.delete({
+    where: {
+      "id": orgId,
+      "ownerId": userId
+    }
+  });
+
+  return deleteOrg;
+}
