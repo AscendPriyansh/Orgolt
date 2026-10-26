@@ -1,6 +1,5 @@
 import type { Request, Response } from "express";
-import prisma from "../lib/prisma.js";
-import { createOrgService, getOrgService } from "../services/org.service.js";
+import { createOrgService, getOrgService, updateOrgService } from "../services/org.service.js";
 
 export const getOrg = async (req: Request, res: Response) => {
   try {
@@ -54,3 +53,40 @@ export const createOrg = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const updateOrg = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).userId;
+    const orgId = req.params.orgId;
+
+    if (typeof orgId !== "string" || !orgId) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid organization ID"
+      });
+    }
+
+    const updatedOrg = await updateOrgService(req.body, userId, orgId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Organization updated successfully",
+      data: updatedOrg
+    });
+
+  } catch(err) {
+    console.log(err);
+
+    if(err instanceof Error && err.message === "Organization doesn't exist") {
+      return res.status(404).json({
+        success: false,
+        message: "Organization doesn't exist"
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error"
+    });
+  }
+};

@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma.js";
-import type { CreateOrgInput } from "../validators/org.validator.js";
+import type { CreateOrgInput, UpdateOrgInput } from "../validators/org.validator.js";
 
 export const getOrgService = async (userId: string) => {
   const getOrg = await prisma.organization.findMany({
@@ -10,6 +10,17 @@ export const getOrgService = async (userId: string) => {
         },
       },
     },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      visibility: true,
+      members: {
+        select: {
+          id: true
+        }
+      }
+    }
   });
 
   return getOrg;
@@ -38,9 +49,61 @@ export const createOrgService = async (data: CreateOrgInput, ownerId: string) =>
         "name": name,
         "description": description || "",
         "visibility": visibility,
-        "ownerId": ownerId
+        "ownerId": ownerId,
+        "members": {
+          connect: {
+            id: ownerId
+          }
+        }
+      },
+      select: {
+        name: true,
+        description: true,
+        visibility: true,
+        members: {
+          select: {
+            id: true
+          }
+        }
       }
     });
 
     return createOrg;
+}
+
+export const updateOrgService = async (data: UpdateOrgInput, ownerId: string, orgId: string) => {
+  const orgExists = await prisma.organization.findFirst({
+    where: {
+      id: orgId,
+      ownerId
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      visibility: true,
+      members: {
+        select: {
+          id: true
+        }
+      }
+    }
+  });
+
+  if (!orgExists) {
+    throw new Error("Organization doesn't exist");
+  }
+
+  const updateOrg = await prisma.organization.update({
+    where: {
+      id: orgId
+    },
+    data: {
+      name: data.name ?? orgExists.name,
+      description: data.description ?? orgExists.description,
+      visibility: data.visibility ?? orgExists.visibility
+    }
+  });
+
+  return updateOrg;
 }
