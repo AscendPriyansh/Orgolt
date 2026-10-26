@@ -35,3 +35,19 @@ model AuthAccount {
   @@unique([provider, providerAcccountId])
   @@index([userId])
 }
+
+enum orgVisibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+model Organization {
+  id String @id @default(cuid())
+  name String @db.VarChar(100)
+  description String @default("") @db.VarChar(100)
+  visibility orgVisibility @default(PRIVATE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

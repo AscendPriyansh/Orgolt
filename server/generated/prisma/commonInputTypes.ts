@@ -110,6 +110,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumorgVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.orgVisibility | Prisma.EnumorgVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel> | $Enums.orgVisibility
+}
+
+export type EnumorgVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.orgVisibility | Prisma.EnumorgVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumorgVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.orgVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -217,6 +234,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumorgVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.orgVisibility | Prisma.EnumorgVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel> | $Enums.orgVisibility
+}
+
+export type NestedEnumorgVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.orgVisibility | Prisma.EnumorgVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.orgVisibility[] | Prisma.ListEnumorgVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumorgVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.orgVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumorgVisibilityFilter<$PrismaModel>
 }
 
 
