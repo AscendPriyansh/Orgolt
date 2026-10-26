@@ -40,9 +40,9 @@ model AuthAccount {
 }
 
 enum orgVisibility {
-  PUBLIC
-  PRIVATE
-  UNLISTED
+  PUBLIC @map("PUBLIC")
+  PRIVATE @map("PRIVATE")
+  UNLISTED @map("UNLISTED")
 }
 
 model Organization {
