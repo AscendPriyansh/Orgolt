@@ -22,6 +22,9 @@ model User {
   updatedAt DateTime @updatedAt
 
   accounts AuthAccount[]
+
+  ownedOrganizations  Organization[] @relation("OrgOwner")
+  memberOrganizations Organization[] @relation("OrgMembers")
 }
 
 model AuthAccount {
@@ -43,11 +46,13 @@ enum orgVisibility {
 }
 
 model Organization {
-  id String @id @default(cuid())
-  name String @db.VarChar(100)
-  description String @default("") @db.VarChar(100)
-  visibility orgVisibility @default(PRIVATE)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String        @id @default(cuid())
+  ownerId     String
+  owner       User          @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  name        String        @db.VarChar(100)
+  description String        @default("") @db.VarChar(100)
+  visibility  orgVisibility @default(PRIVATE)
+  members     User[]        @relation("OrgMembers")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }

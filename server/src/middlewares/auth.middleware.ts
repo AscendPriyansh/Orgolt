@@ -27,18 +27,17 @@ export const authMiddleware = (
   try {
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET_KEY!,
     ) as jwt.JwtPayload;
     (req as any).userId = decoded.id;
 
     next();
-  } catch {
+  } catch(err) {
+    console.log(err);
+
     return res.status(401).json({
+      success: false,
       message: "Invalid token",
     });
   }
-};
-
-module.exports = {
-  authMiddleware: authMiddleware,
 };

@@ -98,6 +98,7 @@ export type AuthAccountScalarFieldEnum = (typeof AuthAccountScalarFieldEnum)[key
 
 export const OrganizationScalarFieldEnum = {
   id: 'id',
+  ownerId: 'ownerId',
   name: 'name',
   description: 'description',
   visibility: 'visibility',

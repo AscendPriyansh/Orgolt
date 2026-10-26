@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.route.js";
+import orgRoutes from "./routes/org.route.js";
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.use(helmet());
 
 app.use("/api/v1/health", healthRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/org", orgRoutes);
 
 export default app;
