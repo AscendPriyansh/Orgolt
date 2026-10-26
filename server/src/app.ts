@@ -3,6 +3,7 @@ import helmet from "helmet";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.route.js";
 import orgRoutes from "./routes/org.route.js";
+import boardRoutes from "./routes/board.route.js";
 
 const app = express();
 
@@ -13,5 +14,7 @@ app.use(helmet());
 app.use("/api/v1/health", healthRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/org", orgRoutes);
+
+app.use("api/v1/org/:orgId/board", boardRoutes);
 
 export default app;

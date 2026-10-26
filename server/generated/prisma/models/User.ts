@@ -201,6 +201,7 @@ export type UserWhereInput = {
   accounts?: Prisma.AuthAccountListRelationFilter
   ownedOrganizations?: Prisma.OrganizationListRelationFilter
   memberOrganizations?: Prisma.OrganizationListRelationFilter
+  ownedBoard?: Prisma.BoardListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -214,6 +215,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AuthAccountOrderByRelationAggregateInput
   ownedOrganizations?: Prisma.OrganizationOrderByRelationAggregateInput
   memberOrganizations?: Prisma.OrganizationOrderByRelationAggregateInput
+  ownedBoard?: Prisma.BoardOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -230,6 +232,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AuthAccountListRelationFilter
   ownedOrganizations?: Prisma.OrganizationListRelationFilter
   memberOrganizations?: Prisma.OrganizationListRelationFilter
+  ownedBoard?: Prisma.BoardListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -269,6 +272,7 @@ export type UserCreateInput = {
   accounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput
   ownedOrganizations?: Prisma.OrganizationCreateNestedManyWithoutOwnerInput
   memberOrganizations?: Prisma.OrganizationCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -282,6 +286,7 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput
   ownedOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutOwnerInput
   memberOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUpdateInput = {
@@ -295,6 +300,7 @@ export type UserUpdateInput = {
   accounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput
   ownedOrganizations?: Prisma.OrganizationUpdateManyWithoutOwnerNestedInput
   memberOrganizations?: Prisma.OrganizationUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -308,6 +314,7 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput
   ownedOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutOwnerNestedInput
   memberOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -463,6 +470,20 @@ export type UserUncheckedUpdateManyWithoutMemberOrganizationsNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutOwnedBoardInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedBoardInput, Prisma.UserUncheckedCreateWithoutOwnedBoardInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedBoardInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOwnedBoardNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedBoardInput, Prisma.UserUncheckedCreateWithoutOwnedBoardInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedBoardInput
+  upsert?: Prisma.UserUpsertWithoutOwnedBoardInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOwnedBoardInput, Prisma.UserUpdateWithoutOwnedBoardInput>, Prisma.UserUncheckedUpdateWithoutOwnedBoardInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -473,6 +494,7 @@ export type UserCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   ownedOrganizations?: Prisma.OrganizationCreateNestedManyWithoutOwnerInput
   memberOrganizations?: Prisma.OrganizationCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -485,6 +507,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   ownedOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutOwnerInput
   memberOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -513,6 +536,7 @@ export type UserUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedOrganizations?: Prisma.OrganizationUpdateManyWithoutOwnerNestedInput
   memberOrganizations?: Prisma.OrganizationUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -525,6 +549,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownedOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutOwnerNestedInput
   memberOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserCreateWithoutOwnedOrganizationsInput = {
@@ -537,6 +562,7 @@ export type UserCreateWithoutOwnedOrganizationsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput
   memberOrganizations?: Prisma.OrganizationCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutOwnedOrganizationsInput = {
@@ -549,6 +575,7 @@ export type UserUncheckedCreateWithoutOwnedOrganizationsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput
   memberOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutMembersInput
+  ownedBoard?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutOwnedOrganizationsInput = {
@@ -566,6 +593,7 @@ export type UserCreateWithoutMemberOrganizationsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput
   ownedOrganizations?: Prisma.OrganizationCreateNestedManyWithoutOwnerInput
+  ownedBoard?: Prisma.BoardCreateNestedManyWithoutOwnerInput
 }
 
 export type UserUncheckedCreateWithoutMemberOrganizationsInput = {
@@ -578,6 +606,7 @@ export type UserUncheckedCreateWithoutMemberOrganizationsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput
   ownedOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutOwnerInput
+  ownedBoard?: Prisma.BoardUncheckedCreateNestedManyWithoutOwnerInput
 }
 
 export type UserCreateOrConnectWithoutMemberOrganizationsInput = {
@@ -606,6 +635,7 @@ export type UserUpdateWithoutOwnedOrganizationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput
   memberOrganizations?: Prisma.OrganizationUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedOrganizationsInput = {
@@ -618,6 +648,7 @@ export type UserUncheckedUpdateWithoutOwnedOrganizationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput
   memberOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutMembersNestedInput
+  ownedBoard?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutMemberOrganizationsInput = {
@@ -649,6 +680,74 @@ export type UserScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
+export type UserCreateWithoutOwnedBoardInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AuthAccountCreateNestedManyWithoutUserInput
+  ownedOrganizations?: Prisma.OrganizationCreateNestedManyWithoutOwnerInput
+  memberOrganizations?: Prisma.OrganizationCreateNestedManyWithoutMembersInput
+}
+
+export type UserUncheckedCreateWithoutOwnedBoardInput = {
+  id?: string
+  name?: string | null
+  email: string
+  password?: string | null
+  avatarUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AuthAccountUncheckedCreateNestedManyWithoutUserInput
+  ownedOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutOwnerInput
+  memberOrganizations?: Prisma.OrganizationUncheckedCreateNestedManyWithoutMembersInput
+}
+
+export type UserCreateOrConnectWithoutOwnedBoardInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedBoardInput, Prisma.UserUncheckedCreateWithoutOwnedBoardInput>
+}
+
+export type UserUpsertWithoutOwnedBoardInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOwnedBoardInput, Prisma.UserUncheckedUpdateWithoutOwnedBoardInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedBoardInput, Prisma.UserUncheckedCreateWithoutOwnedBoardInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOwnedBoardInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOwnedBoardInput, Prisma.UserUncheckedUpdateWithoutOwnedBoardInput>
+}
+
+export type UserUpdateWithoutOwnedBoardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput
+  ownedOrganizations?: Prisma.OrganizationUpdateManyWithoutOwnerNestedInput
+  memberOrganizations?: Prisma.OrganizationUpdateManyWithoutMembersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOwnedBoardInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput
+  ownedOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutOwnerNestedInput
+  memberOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutMembersNestedInput
+}
+
 export type UserUpdateWithoutMemberOrganizationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -659,6 +758,7 @@ export type UserUpdateWithoutMemberOrganizationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AuthAccountUpdateManyWithoutUserNestedInput
   ownedOrganizations?: Prisma.OrganizationUpdateManyWithoutOwnerNestedInput
+  ownedBoard?: Prisma.BoardUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMemberOrganizationsInput = {
@@ -671,6 +771,7 @@ export type UserUncheckedUpdateWithoutMemberOrganizationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AuthAccountUncheckedUpdateManyWithoutUserNestedInput
   ownedOrganizations?: Prisma.OrganizationUncheckedUpdateManyWithoutOwnerNestedInput
+  ownedBoard?: Prisma.BoardUncheckedUpdateManyWithoutOwnerNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutMemberOrganizationsInput = {
@@ -692,12 +793,14 @@ export type UserCountOutputType = {
   accounts: number
   ownedOrganizations: number
   memberOrganizations: number
+  ownedBoard: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   ownedOrganizations?: boolean | UserCountOutputTypeCountOwnedOrganizationsArgs
   memberOrganizations?: boolean | UserCountOutputTypeCountMemberOrganizationsArgs
+  ownedBoard?: boolean | UserCountOutputTypeCountOwnedBoardArgs
 }
 
 /**
@@ -731,6 +834,13 @@ export type UserCountOutputTypeCountMemberOrganizationsArgs<ExtArgs extends runt
   where?: Prisma.OrganizationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOwnedBoardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BoardWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -743,6 +853,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   ownedOrganizations?: boolean | Prisma.User$ownedOrganizationsArgs<ExtArgs>
   memberOrganizations?: boolean | Prisma.User$memberOrganizationsArgs<ExtArgs>
+  ownedBoard?: boolean | Prisma.User$ownedBoardArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -781,6 +892,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   ownedOrganizations?: boolean | Prisma.User$ownedOrganizationsArgs<ExtArgs>
   memberOrganizations?: boolean | Prisma.User$memberOrganizationsArgs<ExtArgs>
+  ownedBoard?: boolean | Prisma.User$ownedBoardArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -792,6 +904,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AuthAccountPayload<ExtArgs>[]
     ownedOrganizations: Prisma.$OrganizationPayload<ExtArgs>[]
     memberOrganizations: Prisma.$OrganizationPayload<ExtArgs>[]
+    ownedBoard: Prisma.$BoardPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1198,6 +1311,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuthAccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ownedOrganizations<T extends Prisma.User$ownedOrganizationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedOrganizationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberOrganizations<T extends Prisma.User$memberOrganizationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$memberOrganizationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ownedBoard<T extends Prisma.User$ownedBoardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedBoardArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1696,6 +1810,30 @@ export type User$memberOrganizationsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.OrganizationScalarFieldEnum | Prisma.OrganizationScalarFieldEnum[]
+}
+
+/**
+ * User.ownedBoard
+ */
+export type User$ownedBoardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Board
+   */
+  select?: Prisma.BoardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Board
+   */
+  omit?: Prisma.BoardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BoardInclude<ExtArgs> | null
+  where?: Prisma.BoardWhereInput
+  orderBy?: Prisma.BoardOrderByWithRelationInput | Prisma.BoardOrderByWithRelationInput[]
+  cursor?: Prisma.BoardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BoardScalarFieldEnum | Prisma.BoardScalarFieldEnum[]
 }
 
 /**

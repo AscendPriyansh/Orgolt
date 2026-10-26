@@ -1,12 +1,12 @@
 import z from "zod";
 
-export const createOrgSchema = z.object({
+const createOrgSchema = z.object({
     name: z.string().min(3).max(100).toLowerCase(),
     description: z.string().max(100).optional(),
     visibility: z.enum(["PUBLIC", "PRIVATE", "UNLISTED"]).default("PRIVATE"),
 });
 
-export const updateOrgSchema = z.object({
+const updateOrgSchema = z.object({
     name: z.string().min(3).max(100).toLowerCase().optional(),
     description: z.string().max(100).optional(),
     visibility: z.enum(["PUBLIC", "PRIVATE", "UNLISTED"]).optional(),

@@ -56,3 +56,8 @@ export type AuthAccount = Prisma.AuthAccountModel
  * 
  */
 export type Organization = Prisma.OrganizationModel
+/**
+ * Model Board
+ * 
+ */
+export type Board = Prisma.BoardModel
