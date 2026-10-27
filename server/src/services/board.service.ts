@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma.js";
+import type { CreateBoardInput } from "../validators/board.validator.js";
 
 export const getBoardsService = async (orgId: string, userId: string) => {
     const getBoard = await prisma.board.findMany({
@@ -12,9 +13,53 @@ export const getBoardsService = async (orgId: string, userId: string) => {
         }
     });
 
-    if(getBoard.length==0) {
-        throw new Error("Board doesn't exist");
+    return getBoard;
+}
+
+export const createBoardService = async (data: CreateBoardInput, orgId: string, userId: string) => {
+    const { name, description } = data;
+
+    const orgExists = await prisma.organization.findUnique({
+        where: {
+            id: orgId
+        },
+        select: {
+            ownerId: true
+        }
+    });
+
+    if(!orgExists) {
+        throw new Error("Organization doesn't exist");
     }
 
-    return getBoard;
+    if(orgExists.ownerId !== userId) {
+        throw new Error("Only the organization owner can create boards");
+    }
+
+    const boradExist = await prisma.board.findFirst({
+        where: {
+            organizationId: orgId,
+            name: name
+        }
+    });
+
+    if(boradExist) {
+        throw new Error("Board already exist");
+    }
+
+    const createBoard = await prisma.board.create({
+        data: {
+            organizationId: orgId,
+            ownerId: userId,
+            name: name,
+            description: description || ""
+        },
+        select: {
+            organizationId: true,
+            name: true,
+            description: true
+        }
+    });
+
+    return createBoard;
 }
