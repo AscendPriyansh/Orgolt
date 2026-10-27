@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createBoardService, getBoardsService } from "../services/board.service.js";
+import { createBoardService, getBoardsService, updateBoardService } from "../services/board.service.js";
 
 export const getBoards = async (req: Request, res: Response) => {
     try {
@@ -68,5 +68,50 @@ export const createBoard = async (req: Request, res: Response) => {
             success: false,
             message: "Internal server error"
         });
+    }
+}
+
+export const updateBoard = async (req: Request, res: Response) => {
+    try {
+        const orgId = (req as any).params.orgId;
+        const boardId = (req as any).params.boardId;
+        const userId = (req as any).userId;
+
+        const updateBoard = await updateBoardService(req.body, orgId, boardId, userId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Board updated successfully",
+            data: updateBoard
+        });
+
+    } catch(err) {
+        console.log(err);
+
+        if(err instanceof Error && err.message == "Board doesn't exist") {
+            return res.status(409).json({
+                success: false,
+                message: "Board already exist"
+            });
+        }
+
+        if(err instanceof Error && err.message == "Only the organization owner can create boards") {
+            return res.status(403).json({
+                success: false,
+                message: "User doesn't have permission to perform this action"
+            });
+        }
+
+        if(err instanceof Error && err.message == "Organization doesn't exist") {
+            return res.status(404).json({
+                success: false,
+                message: "Organization doesn't exsist"
+            });
+        }
+
+         return res.status(500).json({
+            success: false,
+            message: "Intenal server error"
+         });
     }
 }
