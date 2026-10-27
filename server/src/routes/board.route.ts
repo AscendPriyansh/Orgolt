@@ -7,4 +7,3 @@ const router = express.Router();
 router.get("/", authMiddleware, getBoards);
 
 export default router;
-
