@@ -12,7 +12,7 @@ export const getBoardsService = async (orgId: string, userId: string) => {
         }
     });
 
-    if(!getBoard) {
+    if(getBoard.length==0) {
         throw new Error("Board doesn't exist");
     }
 

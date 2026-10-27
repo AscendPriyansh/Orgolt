@@ -17,6 +17,13 @@ export const getBoards = async (req: Request, res: Response) => {
     } catch(err) {
         console.log(err);
 
+        if(err instanceof Error && err.message=="Board doesn't exist") {
+            return res.status(404).json({
+                success: true,
+                message: "Board doesn't exist"
+            });
+        }
+
         return res.status(500).json({
             success: false,
             message: "Internal server error"
