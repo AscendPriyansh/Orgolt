@@ -81,7 +81,7 @@ export const updateBoardService = async (data: UpdateBoardInput, orgId: string, 
     }
 
     if(orgExists.ownerId !== userId) {
-        throw new Error("Only the organization owner can create boards");
+        throw new Error("Only the organization owner can update boards");
     }
 
     const boardExists = await prisma.board.findFirst({
@@ -112,4 +112,43 @@ export const updateBoardService = async (data: UpdateBoardInput, orgId: string, 
     });
 
     return updateBoard;
+}
+
+export const deleteBoardService = async (orgId: string, boardId: string, userId: string) => {
+    const orgExists = await prisma.organization.findUnique({
+        where: {
+            id: orgId,
+        },
+        select: {
+            ownerId: true
+        }
+    });
+
+    if(!orgExists) {
+        throw new Error("Organization doesn't exist");
+    }
+
+    if(orgExists.ownerId !== userId) {
+        throw new Error("Only the organization owner can delete boards");
+    }
+
+    const boardExists = await prisma.board.findFirst({
+        where: {
+            id: boardId,
+            organizationId: orgId
+        }
+    });
+
+    if(!boardExists) {
+        throw new Error("Board doesn't exist");
+    }
+
+    const deleteBoard = await prisma.board.delete({
+        where: {
+            id: boardId,
+            organizationId: orgId
+        }
+    });
+
+    return deleteBoard;
 }
