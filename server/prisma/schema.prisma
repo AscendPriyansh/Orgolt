@@ -30,20 +30,20 @@ model User {
 }
 
 model AuthAccount {
-  id                 String   @id @default(cuid())
-  provider           String
-  providerAcccountId String
-  userId             String
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt          DateTime @default(now())
+  id                String   @id @default(cuid())
+  provider          String
+  providerAccountId String
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
 
-  @@unique([provider, providerAcccountId])
+  @@unique([provider, providerAccountId])
   @@index([userId])
 }
 
 enum orgVisibility {
-  PUBLIC @map("PUBLIC")
-  PRIVATE @map("PRIVATE")
+  PUBLIC   @map("PUBLIC")
+  PRIVATE  @map("PRIVATE")
   UNLISTED @map("UNLISTED")
 }
 
@@ -55,20 +55,34 @@ model Organization {
   description String        @default("") @db.VarChar(100)
   visibility  orgVisibility @default(PRIVATE)
   members     User[]        @relation("OrgMembers")
-  boards      Board[] 
+  boards      Board[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
 
 model Board {
-  id String @id @default(cuid())
-  ownerId String
-  owner User @relation("BoardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  id             String       @id @default(cuid())
+  ownerId        String
+  owner          User         @relation("BoardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  name String @db.VarChar(100)
-  description String @default("") @db.VarChar(100)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt 
+  name           String       @db.VarChar(100)
+  description    String       @default("") @db.VarChar(100)
+  lists          List[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId])
 }
 
+model List {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(100)
+  boardId   String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([boardId, position])
+}

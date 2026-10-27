@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   AuthAccount: 'AuthAccount',
   Organization: 'Organization',
-  Board: 'Board'
+  Board: 'Board',
+  List: 'List'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -89,7 +90,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const AuthAccountScalarFieldEnum = {
   id: 'id',
   provider: 'provider',
-  providerAcccountId: 'providerAcccountId',
+  providerAccountId: 'providerAccountId',
   userId: 'userId',
   createdAt: 'createdAt'
 } as const
@@ -121,6 +122,18 @@ export const BoardScalarFieldEnum = {
 } as const
 
 export type BoardScalarFieldEnum = (typeof BoardScalarFieldEnum)[keyof typeof BoardScalarFieldEnum]
+
+
+export const ListScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  boardId: 'boardId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ListScalarFieldEnum = (typeof ListScalarFieldEnum)[keyof typeof ListScalarFieldEnum]
 
 
 export const SortOrder = {

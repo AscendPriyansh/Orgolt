@@ -14,7 +14,7 @@ app.use(helmet());
 app.use("/api/v1/health", healthRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/org", orgRoutes);
-
 app.use("/api/v1/org/:orgId/board", boardRoutes);
+
 
 export default app;

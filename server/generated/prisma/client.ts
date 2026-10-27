@@ -61,3 +61,8 @@ export type Organization = Prisma.OrganizationModel
  * 
  */
 export type Board = Prisma.BoardModel
+/**
+ * Model List
+ * 
+ */
+export type List = Prisma.ListModel
