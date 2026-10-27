@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createBoardService, deleteBoardService, getBoardsService, updateBoardService } from "../services/board.service.js";
+import { createBoardService, deleteBoardService, getBoardService, getBoardsService, updateBoardService } from "../services/board.service.js";
 
 export const getBoards = async (req: Request, res: Response) => {
     try {
@@ -145,6 +145,45 @@ export const deleteBoard = async (req: Request, res: Response) => {
             return res.status(403).json({
                 success: false,
                 message: "User doesn't have permission to perform this action"
+            });
+        }
+
+        if(err instanceof Error && err.message == "Organization doesn't exist") {
+            return res.status(404).json({
+                success: false,
+                message: "Organization doesn't exsist"
+            });
+        }
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+}
+
+export const getBoard = async (req: Request, res: Response) => {
+    try {
+
+        const orgId = (req as any).params.orgId;
+        const boardId = (req as any).params.boardId;
+        const userId = (req as any).userId;
+
+        const getBoard = await getBoardService(orgId, boardId, userId);
+
+        return res.status(200).json({
+            success: true,
+            message: "Board fetched successfully",
+            data: getBoard
+        });
+
+    } catch(err) {
+        console.log(err); 
+
+        if(err instanceof Error && err.message == "Board doesn't exist") {
+            return res.status(409).json({
+                success: false,
+                message: "Board doesn't exist"
             });
         }
 

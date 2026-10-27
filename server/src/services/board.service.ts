@@ -152,3 +152,40 @@ export const deleteBoardService = async (orgId: string, boardId: string, userId:
 
     return deleteBoard;
 }
+
+export const getBoardService = async (orgId: string, boardId: string, userId: string) => {
+    const orgExists = await prisma.organization.findUnique({
+        where: {
+            id: orgId,
+        },
+        select: {
+            ownerId: true
+        }
+    });
+
+    if(!orgExists) {
+        throw new Error("Organization doesn't exist");
+    }
+
+    if(orgExists.ownerId !== userId) {
+        throw new Error("Only the organization owner can delete boards");
+    }
+
+    const getBoard = await prisma.board.findFirst({
+        where: {
+            id: boardId,
+            organizationId: orgId
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true
+        }
+    });
+
+    if(!getBoard) {
+        throw new Error("Board doesn't exist");
+    }
+
+    return getBoard;
+}
