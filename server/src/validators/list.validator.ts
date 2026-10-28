@@ -17,7 +17,7 @@ export type CreateListInput = z.infer<
     typeof listSchema.createListSchema
 >
 
-export type updateListInput = z.infer<
+export type UpdateListInput = z.infer<
     typeof listSchema.updateListSchema
 >
 
