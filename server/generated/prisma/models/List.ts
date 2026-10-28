@@ -225,6 +225,7 @@ export type ListWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"List"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"List"> | Date | string
   board?: Prisma.XOR<Prisma.BoardScalarRelationFilter, Prisma.BoardWhereInput>
+  cards?: Prisma.CardListRelationFilter
 }
 
 export type ListOrderByWithRelationInput = {
@@ -235,6 +236,7 @@ export type ListOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   board?: Prisma.BoardOrderByWithRelationInput
+  cards?: Prisma.CardOrderByRelationAggregateInput
 }
 
 export type ListWhereUniqueInput = Prisma.AtLeast<{
@@ -248,6 +250,7 @@ export type ListWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"List"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"List"> | Date | string
   board?: Prisma.XOR<Prisma.BoardScalarRelationFilter, Prisma.BoardWhereInput>
+  cards?: Prisma.CardListRelationFilter
 }, "id">
 
 export type ListOrderByWithAggregationInput = {
@@ -283,6 +286,7 @@ export type ListCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   board: Prisma.BoardCreateNestedOneWithoutListsInput
+  cards?: Prisma.CardCreateNestedManyWithoutListInput
 }
 
 export type ListUncheckedCreateInput = {
@@ -292,6 +296,7 @@ export type ListUncheckedCreateInput = {
   position?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutListInput
 }
 
 export type ListUpdateInput = {
@@ -301,6 +306,7 @@ export type ListUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   board?: Prisma.BoardUpdateOneRequiredWithoutListsNestedInput
+  cards?: Prisma.CardUpdateManyWithoutListNestedInput
 }
 
 export type ListUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type ListUncheckedUpdateInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cards?: Prisma.CardUncheckedUpdateManyWithoutListNestedInput
 }
 
 export type ListCreateManyInput = {
@@ -383,6 +390,11 @@ export type ListSumOrderByAggregateInput = {
   position?: Prisma.SortOrder
 }
 
+export type ListScalarRelationFilter = {
+  is?: Prisma.ListWhereInput
+  isNot?: Prisma.ListWhereInput
+}
+
 export type ListCreateNestedManyWithoutBoardInput = {
   create?: Prisma.XOR<Prisma.ListCreateWithoutBoardInput, Prisma.ListUncheckedCreateWithoutBoardInput> | Prisma.ListCreateWithoutBoardInput[] | Prisma.ListUncheckedCreateWithoutBoardInput[]
   connectOrCreate?: Prisma.ListCreateOrConnectWithoutBoardInput | Prisma.ListCreateOrConnectWithoutBoardInput[]
@@ -433,12 +445,27 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type ListCreateNestedOneWithoutCardsInput = {
+  create?: Prisma.XOR<Prisma.ListCreateWithoutCardsInput, Prisma.ListUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.ListCreateOrConnectWithoutCardsInput
+  connect?: Prisma.ListWhereUniqueInput
+}
+
+export type ListUpdateOneRequiredWithoutCardsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListCreateWithoutCardsInput, Prisma.ListUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.ListCreateOrConnectWithoutCardsInput
+  upsert?: Prisma.ListUpsertWithoutCardsInput
+  connect?: Prisma.ListWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListUpdateToOneWithWhereWithoutCardsInput, Prisma.ListUpdateWithoutCardsInput>, Prisma.ListUncheckedUpdateWithoutCardsInput>
+}
+
 export type ListCreateWithoutBoardInput = {
   id?: string
   name: string
   position?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  cards?: Prisma.CardCreateNestedManyWithoutListInput
 }
 
 export type ListUncheckedCreateWithoutBoardInput = {
@@ -447,6 +474,7 @@ export type ListUncheckedCreateWithoutBoardInput = {
   position?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutListInput
 }
 
 export type ListCreateOrConnectWithoutBoardInput = {
@@ -487,6 +515,58 @@ export type ListScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"List"> | Date | string
 }
 
+export type ListCreateWithoutCardsInput = {
+  id?: string
+  name: string
+  position?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  board: Prisma.BoardCreateNestedOneWithoutListsInput
+}
+
+export type ListUncheckedCreateWithoutCardsInput = {
+  id?: string
+  name: string
+  boardId: string
+  position?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ListCreateOrConnectWithoutCardsInput = {
+  where: Prisma.ListWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListCreateWithoutCardsInput, Prisma.ListUncheckedCreateWithoutCardsInput>
+}
+
+export type ListUpsertWithoutCardsInput = {
+  update: Prisma.XOR<Prisma.ListUpdateWithoutCardsInput, Prisma.ListUncheckedUpdateWithoutCardsInput>
+  create: Prisma.XOR<Prisma.ListCreateWithoutCardsInput, Prisma.ListUncheckedCreateWithoutCardsInput>
+  where?: Prisma.ListWhereInput
+}
+
+export type ListUpdateToOneWithWhereWithoutCardsInput = {
+  where?: Prisma.ListWhereInput
+  data: Prisma.XOR<Prisma.ListUpdateWithoutCardsInput, Prisma.ListUncheckedUpdateWithoutCardsInput>
+}
+
+export type ListUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  board?: Prisma.BoardUpdateOneRequiredWithoutListsNestedInput
+}
+
+export type ListUncheckedUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  boardId?: Prisma.StringFieldUpdateOperationsInput | string
+  position?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ListCreateManyBoardInput = {
   id?: string
   name: string
@@ -501,6 +581,7 @@ export type ListUpdateWithoutBoardInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cards?: Prisma.CardUpdateManyWithoutListNestedInput
 }
 
 export type ListUncheckedUpdateWithoutBoardInput = {
@@ -509,6 +590,7 @@ export type ListUncheckedUpdateWithoutBoardInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cards?: Prisma.CardUncheckedUpdateManyWithoutListNestedInput
 }
 
 export type ListUncheckedUpdateManyWithoutBoardInput = {
@@ -520,6 +602,35 @@ export type ListUncheckedUpdateManyWithoutBoardInput = {
 }
 
 
+/**
+ * Count Type ListCountOutputType
+ */
+
+export type ListCountOutputType = {
+  cards: number
+}
+
+export type ListCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cards?: boolean | ListCountOutputTypeCountCardsArgs
+}
+
+/**
+ * ListCountOutputType without action
+ */
+export type ListCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ListCountOutputType
+   */
+  select?: Prisma.ListCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ListCountOutputType without action
+ */
+export type ListCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
 
 export type ListSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -529,6 +640,8 @@ export type ListSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  cards?: boolean | Prisma.List$cardsArgs<ExtArgs>
+  _count?: boolean | Prisma.ListCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["list"]>
 
 export type ListSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -563,6 +676,8 @@ export type ListSelectScalar = {
 export type ListOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "boardId" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["list"]>
 export type ListInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
+  cards?: boolean | Prisma.List$cardsArgs<ExtArgs>
+  _count?: boolean | Prisma.ListCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   board?: boolean | Prisma.BoardDefaultArgs<ExtArgs>
@@ -575,6 +690,7 @@ export type $ListPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "List"
   objects: {
     board: Prisma.$BoardPayload<ExtArgs>
+    cards: Prisma.$CardPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -978,6 +1094,7 @@ readonly fields: ListFieldRefs;
 export interface Prisma__ListClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   board<T extends Prisma.BoardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BoardDefaultArgs<ExtArgs>>): Prisma.Prisma__BoardClient<runtime.Types.Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  cards<T extends Prisma.List$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.List$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1411,6 +1528,30 @@ export type ListDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Lists to delete.
    */
   limit?: number
+}
+
+/**
+ * List.cards
+ */
+export type List$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 
 /**
