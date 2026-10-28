@@ -145,3 +145,51 @@ export const updateListService = async (data: UpdateListInput, orgId: string, bo
 
     return updateList; 
 }
+
+export const deleteListService = async (orgId: string, boardId: string, listId: string) => {
+    const orgExists = await prisma.organization.findUnique({
+        where: {
+            id: orgId
+        }
+    });
+
+    if(!orgExists) {
+        throw new Error("Organization doesn't exist");
+    }
+
+    const getBoard = await prisma.board.findFirst({
+        where: {
+            id: boardId,
+            organizationId: orgId
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true
+        }
+    });
+
+    if(!getBoard) {
+        throw new Error("Board doesn't exist");
+    }
+
+    const listExist = await prisma.list.findFirst({
+        where: {
+            id: listId,
+            boardId: boardId
+        }
+    });
+
+    if(!listExist) {
+        throw new Error("List does't exist");
+    }
+
+    const deleteList = await prisma.list.delete({
+        where: {
+            id: listId,
+            boardId: boardId
+        }
+    });
+
+    return deleteList;
+}
