@@ -5,5 +5,6 @@ import { getCard } from "../controllers/card.controller.js";
 const router = express.Router({ mergeParams: true });
 
 router.get("/:cardId", authMiddleware, getCard);
+router.get("/:cardId", authMiddleware, getCard);
 
 export default router;

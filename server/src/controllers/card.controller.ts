@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { success } from "zod";
 import { getCardService } from "../services/card.service.js";
 
-export const getCards = async (req: Request, res: Response) => {
+export const getCard = async (req: Request, res: Response) => {
     try {
         const orgId = (req as any).params.orgId;
         const boardId = (req as any).params.boardId;
