@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma.js";
+import type { CreateCardInput } from "../validators/card.validator.js";
 
 export const getCardService = async (
   orgId: string,
@@ -67,3 +68,21 @@ export const getCardService = async (
 
   return getCard;
 };
+
+export const createCardService = async (data: CreateCardInput, orgId: string, boardId: string, listId: string) => {
+    const { name } = data;
+
+    const createCard = await prisma.card.create({
+        data: {
+            name: name,
+            listId: listId
+        },
+        select: {
+            id: true,
+            name: true,
+            listId: true
+        }
+    });
+
+    return createCard;
+}
