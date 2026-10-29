@@ -45,6 +45,9 @@ export const getListService = async (orgId: string, boardId: string, userId: str
         where: {
             boardId: boardId
         },
+        orderBy: {
+            position: "asc"
+        },
         select: {
             id: true,
             name: true,

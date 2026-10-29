@@ -1,5 +1,4 @@
 import type {Request, Response} from "express";
-import prisma from "../lib/prisma.js";
 import { loginUserService, registerUserService } from "../services/auth.service.js";
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -40,14 +39,21 @@ export const loginUser = async (req: Request, res: Response) => {
         const userExists = await loginUserService({email, password});
 
         return res.status(200).json({
-            status: true,
+            success: true,
             message: "User loggedin successfully.",
             user: userExists
         });
 
     } catch(error: unknown) {
+        if(error instanceof Error && error.message === "Invalid email or password.") {
+            return res.status(401).json({
+                success: false,
+                message: error.message
+            });
+        }
+
         return res.status(500).json({
-            status: false,
+            success: false,
             message: "Internal Server Error",
         });
     }

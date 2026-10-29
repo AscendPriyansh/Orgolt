@@ -5,6 +5,23 @@ import type {
 } from "../validators/board.validator.js";
 
 export const getBoardsService = async (orgId: string, userId: string) => {
+  const orgExists = await prisma.organization.findUnique({
+    where: {
+      id: orgId,
+    },
+    select: {
+      ownerId: true,
+    },
+  });
+
+  if (!orgExists) {
+    throw new Error("Organization doesn't exist");
+  }
+
+  if (orgExists.ownerId !== userId) {
+    throw new Error("Only the organization owner can view boards");
+  }
+
   const getBoard = await prisma.board.findMany({
     where: {
       organizationId: orgId,
@@ -97,8 +114,6 @@ export const updateBoardService = async (
   boardId: string,
   userId: string,
 ) => {
-  const { name, description } = data;
-
   const orgExists = await prisma.organization.findUnique({
     where: {
       id: orgId,
@@ -121,6 +136,10 @@ export const updateBoardService = async (
       id: boardId,
       organizationId: orgId,
     },
+    select: {
+      name: true,
+      description: true,
+    },
   });
 
   if (!boardExists) {
@@ -133,8 +152,8 @@ export const updateBoardService = async (
       organizationId: orgId,
     },
     data: {
-      name: name || "",
-      description: description || "",
+      name: data.name ?? boardExists.name,
+      description: data.description ?? boardExists.description,
     },
     select: {
       id: true,
@@ -208,7 +227,7 @@ export const getBoardService = async (
   }
 
   if (orgExists.ownerId !== userId) {
-    throw new Error("Only the organization owner can delete boards");
+    throw new Error("Only the organization owner can view boards");
   }
 
   const getBoard = await prisma.board.findFirst({

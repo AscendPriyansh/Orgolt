@@ -20,6 +20,13 @@ export const getBoards = async (req: Request, res: Response) => {
     } catch(err) {
         console.log(err);
 
+        if(err instanceof Error && err.message == "Organization doesn't exist") {
+            return res.status(404).json({
+                success: false,
+                message: "Organization doesn't exist"
+            });
+        }
+
         return res.status(500).json({
             success: false,
             message: "Internal server error"
@@ -89,13 +96,13 @@ export const updateBoard = async (req: Request, res: Response) => {
         console.log(err);
 
         if(err instanceof Error && err.message == "Board doesn't exist") {
-            return res.status(409).json({
+            return res.status(404).json({
                 success: false,
                 message: "Board doesn't exist"
             });
         }
 
-        if(err instanceof Error && err.message == "Only the organization owner can create boards") {
+        if(err instanceof Error && err.message == "Only the organization owner can update boards") {
             return res.status(403).json({
                 success: false,
                 message: "User doesn't have permission to perform this action"
@@ -135,7 +142,7 @@ export const deleteBoard = async (req: Request, res: Response) => {
         console.log(err);
 
         if(err instanceof Error && err.message == "Board doesn't exist") {
-            return res.status(409).json({
+            return res.status(404).json({
                 success: false,
                 message: "Board doesn't exist"
             });
@@ -181,7 +188,7 @@ export const getBoard = async (req: Request, res: Response) => {
         console.log(err); 
 
         if(err instanceof Error && err.message == "Board doesn't exist") {
-            return res.status(409).json({
+            return res.status(404).json({
                 success: false,
                 message: "Board doesn't exist"
             });
@@ -191,6 +198,13 @@ export const getBoard = async (req: Request, res: Response) => {
             return res.status(404).json({
                 success: false,
                 message: "Organization doesn't exsist"
+            });
+        }
+
+        if(err instanceof Error && err.message == "Only the organization owner can view boards") {
+            return res.status(403).json({
+                success: false,
+                message: "User doesn't have permission to perform this action"
             });
         }
 
