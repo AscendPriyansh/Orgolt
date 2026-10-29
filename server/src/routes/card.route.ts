@@ -9,6 +9,6 @@ const router = express.Router({ mergeParams: true });
 router.get("/:cardId", authMiddleware, getCard);
 router.post("/", authMiddleware, authValidator(cardSchema.createCardSchema), createCard);
 router.patch("/:cardId", authMiddleware, authValidator(cardSchema.updateCardSchema), updateCard);
-router.delete("/:card", authMiddleware, deleteCard);
+router.delete("/:cardId", authMiddleware, deleteCard);
 
 export default router;

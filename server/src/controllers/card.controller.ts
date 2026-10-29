@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { success } from "zod";
 import {
   createCardService,
   deleteCardService,
@@ -13,8 +12,9 @@ export const getCard = async (req: Request, res: Response) => {
     const boardId = (req as any).params.boardId;
     const listId = (req as any).params.listId;
     const cardId = (req as any).params.cardId;
+    const userId = (req as any).userId;
 
-    const getCard = await getCardService(orgId, boardId, listId, cardId);
+    const getCard = await getCardService(orgId, boardId, listId, cardId, userId);
 
     return res.status(200).json({
       success: true,
@@ -52,6 +52,13 @@ export const getCard = async (req: Request, res: Response) => {
       });
     }
 
+    if (err instanceof Error && err.message == "Only the organization owner can manage cards") {
+      return res.status(403).json({
+        success: false,
+        message: err.message
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -64,12 +71,14 @@ export const createCard = async (req: Request, res: Response) => {
     const orgId = (req as any).params.orgId;
     const boardId = (req as any).params.boardId;
     const listId = (req as any).params.listId;
+    const userId = (req as any).userId;
 
     const createCard = await createCardService(
       req.body,
       orgId,
       boardId,
       listId,
+      userId
     );
 
     return res.status(201).json({
@@ -102,9 +111,16 @@ export const createCard = async (req: Request, res: Response) => {
     }
 
     if (err instanceof Error && err.message == "Card already exist") {
-      return res.status(404).json({
+      return res.status(409).json({
         success: false,
         message: "Card already exist",
+      });
+    }
+
+    if (err instanceof Error && err.message == "Only the organization owner can manage cards") {
+      return res.status(403).json({
+        success: false,
+        message: err.message
       });
     }
 
@@ -121,6 +137,7 @@ export const updateCard = async (req: Request, res: Response) => {
     const boardId = (req as any).params.boardId;
     const listId = (req as any).params.listId;
     const cardId = (req as any).params.cardId;
+    const userId = (req as any).userId;
 
     const updateCard = await updateCardService(
       req.body,
@@ -128,9 +145,10 @@ export const updateCard = async (req: Request, res: Response) => {
       boardId,
       listId,
       cardId,
+      userId
     );
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Card updated successfully",
       data: updateCard,
@@ -166,6 +184,13 @@ export const updateCard = async (req: Request, res: Response) => {
       });
     }
 
+    if (err instanceof Error && err.message == "Only the organization owner can manage cards") {
+      return res.status(403).json({
+        success: false,
+        message: err.message
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -180,12 +205,14 @@ export const deleteCard = async (req: Request, res: Response) => {
     const boardId = (req as any).params.boardId;
     const listId = (req as any).params.listId;
     const cardId = (req as any).params.cardId;
+    const userId = (req as any).userId;
 
     const deleteCard = await deleteCardService(
       orgId,
       boardId,
       listId,
       cardId,
+      userId
     );
 
     return res.status(200).json({
@@ -221,6 +248,13 @@ export const deleteCard = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Card doesn't exist",
+      });
+    }
+
+    if (err instanceof Error && err.message == "Only the organization owner can manage cards") {
+      return res.status(403).json({
+        success: false,
+        message: err.message
       });
     }
 
