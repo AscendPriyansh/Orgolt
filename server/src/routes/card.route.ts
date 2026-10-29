@@ -6,5 +6,6 @@ const router = express.Router({ mergeParams: true });
 
 router.get("/:cardId", authMiddleware, getCard);
 router.post("/", authMiddleware, createCard);
+router.patch("/:cardId", authMiddleware, updateCard);
 
 export default router;

@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma.js";
-import type { CreateCardInput } from "../validators/card.validator.js";
+import type { CreateCardInput, UpdateCardInput } from "../validators/card.validator.js";
 
 export const getCardService = async (
   orgId: string,
@@ -85,4 +85,25 @@ export const createCardService = async (data: CreateCardInput, orgId: string, bo
     });
 
     return createCard;
+}
+
+export const updateCardService = async (data: UpdateCardInput, orgId: string, boardId: string, listId: string, cardId: string) => {
+  const { name } = data;
+
+    const updateCard = await prisma.card.update({
+      where: {
+        id: cardId
+      },
+        data: {
+            name: name,
+            listId: listId
+        },
+        select: {
+            id: true,
+            name: true,
+            listId: true
+        }
+    });
+
+    return updateCard;
 }
