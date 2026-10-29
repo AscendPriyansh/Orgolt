@@ -1,16 +1,22 @@
-import type { ListCreateInput } from "../../generated/prisma/models.js";
 import prisma from "../lib/prisma.js";
-import type { UpdateListInput } from "../validators/list.validator.js";
+import type { CreateListInput, UpdateListInput } from "../validators/list.validator.js";
 
-export const getListService = async (orgId: string, boardId: string, userId: string) => {
+const checkBoardAccess = async (orgId: string, boardId: string, userId: string) => {
     const orgExists = await prisma.organization.findUnique({
         where: {
             id: orgId
+        },
+        select: {
+            ownerId: true
         }
     });
 
     if(!orgExists) {
         throw new Error("Organization doesn't exist");
+    }
+
+    if(orgExists.ownerId !== userId) {
+        throw new Error("Only the organization owner can manage lists");
     }
 
     const getBoard = await prisma.board.findFirst({
@@ -28,6 +34,12 @@ export const getListService = async (orgId: string, boardId: string, userId: str
     if(!getBoard) {
         throw new Error("Board doesn't exist");
     }
+
+    return getBoard;
+}
+
+export const getListService = async (orgId: string, boardId: string, userId: string) => {
+    await checkBoardAccess(orgId, boardId, userId);
 
     const getList = await prisma.list.findMany({
         where: {
@@ -41,41 +53,13 @@ export const getListService = async (orgId: string, boardId: string, userId: str
         }
     });
 
-    if(!getList) {
-        throw new Error("List doesn't exist");
-    }
-
     return getList;
 }
 
-export const createListService = async (data: ListCreateInput, orgId: string, boardId: string, userId: string) => {
+export const createListService = async (data: CreateListInput, orgId: string, boardId: string, userId: string) => {
     const { name } = data;
 
-    const orgExists = await prisma.organization.findUnique({
-        where: {
-            id: orgId
-        }
-    });
-
-    if(!orgExists) {
-        throw new Error("Organization doesn't exist");
-    }
-
-    const getBoard = await prisma.board.findFirst({
-        where: {
-            id: boardId,
-            organizationId: orgId
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true
-        }
-    });
-
-    if(!getBoard) {
-        throw new Error("Board doesn't exist");
-    }
+    await checkBoardAccess(orgId, boardId, userId);
 
     const createList = await prisma.list.create({
         data: {
@@ -93,34 +77,10 @@ export const createListService = async (data: ListCreateInput, orgId: string, bo
     return createList;
 }
 
-export const updateListService = async (data: UpdateListInput, orgId: string, boardId: string, listId: string) => {
+export const updateListService = async (data: UpdateListInput, orgId: string, boardId: string, listId: string, userId: string) => {
     const { name } = data;
 
-    const orgExists = await prisma.organization.findUnique({
-        where: {
-            id: orgId
-        }
-    });
-
-    if(!orgExists) {
-        throw new Error("Organization doesn't exist");
-    }
-
-    const getBoard = await prisma.board.findFirst({
-        where: {
-            id: boardId,
-            organizationId: orgId
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true
-        }
-    });
-
-    if(!getBoard) {
-        throw new Error("Board doesn't exist");
-    }
+    await checkBoardAccess(orgId, boardId, userId);
 
     const listExist = await prisma.list.findFirst({
         where: {
@@ -130,7 +90,7 @@ export const updateListService = async (data: UpdateListInput, orgId: string, bo
     });
 
     if(!listExist) {
-        throw new Error("List does't exist");
+        throw new Error("List doesn't exist");
     }
 
     const updateList = await prisma.list.update({
@@ -146,32 +106,8 @@ export const updateListService = async (data: UpdateListInput, orgId: string, bo
     return updateList; 
 }
 
-export const deleteListService = async (orgId: string, boardId: string, listId: string) => {
-    const orgExists = await prisma.organization.findUnique({
-        where: {
-            id: orgId
-        }
-    });
-
-    if(!orgExists) {
-        throw new Error("Organization doesn't exist");
-    }
-
-    const getBoard = await prisma.board.findFirst({
-        where: {
-            id: boardId,
-            organizationId: orgId
-        },
-        select: {
-            id: true,
-            name: true,
-            description: true
-        }
-    });
-
-    if(!getBoard) {
-        throw new Error("Board doesn't exist");
-    }
+export const deleteListService = async (orgId: string, boardId: string, listId: string, userId: string) => {
+    await checkBoardAccess(orgId, boardId, userId);
 
     const listExist = await prisma.list.findFirst({
         where: {
@@ -181,7 +117,7 @@ export const deleteListService = async (orgId: string, boardId: string, listId: 
     });
 
     if(!listExist) {
-        throw new Error("List does't exist");
+        throw new Error("List doesn't exist");
     }
 
     const deleteList = await prisma.list.delete({

@@ -12,7 +12,7 @@ export const getList = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message:
-        getList.length > 0 ? "List fetched successfully" : "List doesn't exist",
+        getList.length > 0 ? "Lists fetched successfully" : "There are no lists currently",
       data: getList,
     });
   } catch (err) {
@@ -29,13 +29,6 @@ export const getList = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "Board doesn't exist",
-      });
-    }
-
-    if (err instanceof Error && err.message === "List doesn't exist") {
-      return res.status(404).json({
-        success: false,
-        message: "List doesn't exist",
       });
     }
 
@@ -59,7 +52,7 @@ export const createList = async (req: Request, res: Response) => {
       userId,
     );
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "List created successfully",
       data: createList,
@@ -81,6 +74,13 @@ export const createList = async (req: Request, res: Response) => {
       });
     }
 
+    if (err instanceof Error && err.message === "Only the organization owner can manage lists") {
+      return res.status(403).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -93,12 +93,14 @@ export const updateList = async (req: Request, res: Response) => {
     const orgId = (req as any).params.orgId;
     const boardId = (req as any).params.boardId;
     const listId = (req as any).params.listId;
+    const userId = (req as any).userId;
 
     const updateList = await updateListService(
       req.body,
       orgId,
       boardId,
       listId,
+      userId,
     );
 
     return res.status(200).json({
@@ -124,8 +126,22 @@ export const updateList = async (req: Request, res: Response) => {
       });
     }
 
+    if (err instanceof Error && err.message === "List doesn't exist") {
+      return res.status(404).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    if (err instanceof Error && err.message === "Only the organization owner can manage lists") {
+      return res.status(403).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
     return res.status(500).json({
-      success: true,
+      success: false,
       message: "Internal server error",
     });
   }
@@ -136,8 +152,9 @@ export const deleteList = async (req: Request, res: Response) => {
       const orgId = (req as any).params.orgId;
       const boardId = (req as any).params.boardId;
       const listId = (req as any).params.listId;
+      const userId = (req as any).userId;
 
-      const deleteList = await deleteListService(orgId, boardId, listId);
+      const deleteList = await deleteListService(orgId, boardId, listId, userId);
 
       return res.status(200).json({
         success: true,
@@ -165,6 +182,13 @@ export const deleteList = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "List doesn't exist"
+      });
+    }
+
+    if (err instanceof Error && err.message === "Only the organization owner can manage lists") {
+      return res.status(403).json({
+        success: false,
+        message: err.message,
       });
     }
 
