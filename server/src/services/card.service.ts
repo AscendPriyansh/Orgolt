@@ -107,3 +107,13 @@ export const updateCardService = async (data: UpdateCardInput, orgId: string, bo
 
     return updateCard;
 }
+
+export const deleteCardService = async (orgId: string, boardId: string, listId: string, cardId: string) => {
+    const deleteCard = await prisma.card.delete({
+      where: {
+        id: cardId
+      }
+    });
+
+    return deleteCard;
+}
