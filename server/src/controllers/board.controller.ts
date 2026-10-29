@@ -53,7 +53,7 @@ export const createBoard = async (req: Request, res: Response) => {
         if(err instanceof Error && err.message == "Board already exist") {
             return res.status(409).json({
                 success: false,
-                message: "Board already exist"
+                message: "Board already exists"
             });
         }
 
@@ -67,7 +67,7 @@ export const createBoard = async (req: Request, res: Response) => {
         if(err instanceof Error && err.message == "Organization doesn't exist") {
             return res.status(404).json({
                 success: false,
-                message: "Organization doesn't exsist"
+                message: "Organization doesn't exist"
             });
         }
 
@@ -112,13 +112,13 @@ export const updateBoard = async (req: Request, res: Response) => {
         if(err instanceof Error && err.message == "Organization doesn't exist") {
             return res.status(404).json({
                 success: false,
-                message: "Organization doesn't exsist"
+                message: "Organization doesn't exist"
             });
         }
 
          return res.status(500).json({
             success: false,
-            message: "Intenal server error"
+            message: "Internal server error"
          });
     }
 }
@@ -158,7 +158,7 @@ export const deleteBoard = async (req: Request, res: Response) => {
         if(err instanceof Error && err.message == "Organization doesn't exist") {
             return res.status(404).json({
                 success: false,
-                message: "Organization doesn't exsist"
+                message: "Organization doesn't exist"
             });
         }
 
@@ -197,7 +197,7 @@ export const getBoard = async (req: Request, res: Response) => {
         if(err instanceof Error && err.message == "Organization doesn't exist") {
             return res.status(404).json({
                 success: false,
-                message: "Organization doesn't exsist"
+                message: "Organization doesn't exist"
             });
         }
 
